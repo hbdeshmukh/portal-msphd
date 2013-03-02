@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+
+{% block title %}University List{% endblock %}
+{% block content %}
+	<table>
+		<tr>
+			<th>University</th>
+		</tr>
+		{% for university in universities %}
+			<tr>
+				<td><a href={{ university.univ_website }}>{{ university.univ_name }}</a></td>
+			</tr>
+		{% endfor %}
+	</table>
+{% endblock %}
