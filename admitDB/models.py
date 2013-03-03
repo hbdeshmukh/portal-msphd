@@ -14,15 +14,13 @@ class University(models.Model):
 	univ_city = models.CharField("City", max_length=30)
 	univ_state = models.CharField("State", max_length=30, null=True)
 	univ_country = models.CharField("Country", max_length=20)
-	univ_website = models.URLField("URL")	
-	
-	def getUniversities(self):
-		"""Returns the list of all universities in the database"""
-		return self.objects.all()
+	univ_website = models.URLField("URL")
+		
+	def getUniversityNameURL(self):
+		return University.objects.all.values_list('univ_name','univ_city','univ_website')
 	
 	def addUniversity(self, u_name, u_city, u_country, u_website, u_state=None):
 		"""To add a university in the database.
-
     	:param u_name: University name
     	:param u_city: University city
     	:param u_country: University country
@@ -31,8 +29,7 @@ class University(models.Model):
     	:type name: str.
     	:type state: bool.
     	:returns:  Nothing.
-    	:raises: ValidationError
-	
+    	:raises: ValidationError	
     	"""
 		isURLValid = URLValidator(verify_exists=False)
 		try:
@@ -44,19 +41,19 @@ class University(models.Model):
 			universityRow.save()
 	
 	def __unicode__(self):
-		return u'%s, %s, %s' %(self.univ_name, self.univ_city, self.univ_country)
+		return u'%s, %s' %(self.univ_name, self.univ_city)
+	
 
 class Student(models.Model):
 	student_ID = models.AutoField(primary_key=True)
-	first_name = models.CharField("First Name", max_length=30)
-	last_name = models.CharField("Last Name", max_length=30)
+	name = models.CharField("First Name", max_length=30)
 	BITS_ID = models.CharField("BITS ID", max_length=12)
 	#student_campus = (('P', 'Pilani'), ('G', 'Goa'), ('D', 'Dubai'),('H', 'Hyderabad'),	)
 	email = models.CharField("Email ID", max_length=40)
 	password = models.CharField("Password", max_length=128)
 	
 	def __unicode__(self):
-		return u'%s' %(self.first_name)
+		return u'%s' %(self.name)
 	
 	def getBITSID(self):
 		return u'%s' %(self.BITS_ID)

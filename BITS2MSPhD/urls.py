@@ -6,9 +6,10 @@ from BITS2MSPhD.views import hello, current_datetime
 # admin.autodiscover()
 
 urlpatterns = patterns('',
-		('^hello/$', hello),
-		('^time/$', current_datetime),
-		('^ulist/$', 'admitDB.views.univ_list'),
+		('^$', 'admitDB.views.home'),
+		('^ulist/$', 'admitDB.views.getUniversityList'),
+		('^student/$','admitDB.views.addStudent'),
+		('^thanks/$','admitDB.views.thanksPage'),
     # Examples:
     # url(r'^$', 'mysite.views.home', name='home'),
     # url(r'^mysite/', include('mysite.foo.urls')),
