@@ -20,16 +20,13 @@ def addStudent(request):
   if request.method == 'POST':
     form = studentForm(request.POST)
     if form.is_valid():
-      print "Hello world"
       studentData = form.cleaned_data
       student = Student(name=studentData['name'], BITS_ID=studentData['BITS_ID'], email=studentData['email'], password=studentData['password'])
       student.save()
       return HttpResponseRedirect('/thanks')
     else:
-      print form.errors
-      return render_to_response('student.html',{'errors':form.errors}, RequestContext(request))
+      return render_to_response('student.html',{'form' : form, 'error': form.errors }, RequestContext(request))
   else:
-    print "Not submitted"
     form = studentForm()
     return render_to_response('student.html', {'form': form}, RequestContext(request))
 
