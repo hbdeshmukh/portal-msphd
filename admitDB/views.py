@@ -1,5 +1,7 @@
 # Create your views here.
 from django.http import HttpResponse, HttpResponseRedirect
+from django.forms.util import ErrorList
+from django.core.exceptions import ValidationError
 from django.template import RequestContext
 from django.shortcuts import render_to_response
 from admitDB.models import University, Student
@@ -13,17 +15,23 @@ def getUniversityList(request):
     universities = University.objects.all().values('univ_name','univ_city','univ_website')
     return render_to_response('univ_list.html', {'universities':universities})
 
-def showAddStudent(request):	
+def showAddStudent(request):
     return render_to_response('student.html')
-	
+
 def addStudent(request):
   if request.method == 'POST':
     form = studentForm(request.POST)
     if form.is_valid():
       studentData = form.cleaned_data
-      student = Student(name=studentData['name'], BITS_ID=studentData['BITS_ID'], email=studentData['email'], password=studentData['password'])
-      student.save()
-      return HttpResponseRedirect('/thanks')
+      try:
+        Student.objects.get(email=studentData['email'])
+      except Student.DoesNotExist:
+        student = Student(name=studentData['name'], BITS_ID=studentData['BITS_ID'], email=studentData['email'], password=studentData['password'])
+        student.save()
+        return HttpResponseRedirect('/thanks')
+      else:
+          form.errors['email'] = ErrorList([u'Email address already exists'])
+          return render_to_response('student.html',{'form' : form, 'error': form.errors }, RequestContext(request))
     else:
       return render_to_response('student.html',{'form' : form, 'error': form.errors }, RequestContext(request))
   else:

@@ -49,15 +49,15 @@ class Student(models.Model):
 	name = models.CharField("First Name", max_length=30)
 	BITS_ID = models.CharField("BITS ID", max_length=12)
 	#student_campus = (('P', 'Pilani'), ('G', 'Goa'), ('D', 'Dubai'),('H', 'Hyderabad'),	)
-	email = models.CharField("Email ID", max_length=40)
+	email = models.CharField("Email ID", max_length=40, unique=True)
 	password = models.CharField("Password", max_length=128)
 	
 	def __unicode__(self):
 		return u'%s' %(self.name)
-	
+		
 	def getBITSID(self):
 		return u'%s' %(self.BITS_ID)
-
+		
 class Student_Info(models.Model):
 	student_ID = models.ForeignKey(Student, primary_key=True)
 	discipline = models.CharField("Discipline", max_length=2)#dictionary object for code to name matching of discipline
