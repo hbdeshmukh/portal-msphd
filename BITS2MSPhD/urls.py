@@ -1,5 +1,7 @@
 from django.conf.urls import patterns, include, url
-from BITS2MSPhD.views import hello, current_datetime
+from BITS2MSPhD.views import *
+from django.contrib.auth.views import *
+
 #from bits2msphd.views import University
 # Uncomment the next two lines to enable the admin:
 # from django.contrib import admin
@@ -8,8 +10,12 @@ from BITS2MSPhD.views import hello, current_datetime
 urlpatterns = patterns('',
 		('^$', 'admitDB.views.home'),
 		('^ulist/$', 'admitDB.views.getUniversityList'),
-		('^student/$','admitDB.views.addStudent'),
+		('^student_register/$','admitDB.views.addStudent'),
 		('^thanks/$','admitDB.views.thanksPage'),
+        ('^student_info/$','admitDB.views.addStudentInfo'),
+        ('^login/$', 'admitDB.views.verifyLogin'),
+        (r'^accounts/login/$', 'django.contrib.auth.views.login'),
+        (r'^accounts/logout/$', logout),
     # Examples:
     # url(r'^$', 'mysite.views.home', name='home'),
     # url(r'^mysite/', include('mysite.foo.urls')),

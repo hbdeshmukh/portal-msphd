@@ -1,6 +1,8 @@
 from django.db import models
 from django.core.validators import URLValidator
 from django.core.exceptions import ValidationError
+from django.contrib.auth.models import User, UserManager
+from django.db.models.signals import post_save
 
 # Create your models here.
 class University(models.Model):
@@ -45,18 +47,20 @@ class University(models.Model):
 	
 
 class Student(models.Model):
-	student_ID = models.AutoField(primary_key=True)
-	name = models.CharField("First Name", max_length=30)
-	BITS_ID = models.CharField("BITS ID", max_length=12)
-	#student_campus = (('P', 'Pilani'), ('G', 'Goa'), ('D', 'Dubai'),('H', 'Hyderabad'),	)
-	email = models.CharField("Email ID", max_length=40, unique=True)
-	password = models.CharField("Password", max_length=128)
-	
-	def __unicode__(self):
-		return u'%s' %(self.name)
-		
-	def getBITSID(self):
-		return u'%s' %(self.BITS_ID)
+    # you get a 'student_id' column because of this. 
+    # We will use this as a primary key.
+    student_ID = models.OneToOneField('auth.User', unique = True, primary_key = True)
+    #name = models.CharField("First Name", max_length=30)
+    BITS_ID = models.CharField("BITS ID", max_length=12)
+    #student_campus = (('P', 'Pilani'), ('G', 'Goa'), ('D', 'Dubai'),('H', 'Hyderabad'),	)
+    #email = models.CharField("Email ID", max_length=40, unique=True)
+    def __unicode__(self):
+        return u'%s' %(self.name)
+    
+    def getBITSID(self):
+        return u'%s' %(self.BITS_ID)
+
+
 		
 class Student_Info(models.Model):
 	student_ID = models.ForeignKey(Student, primary_key=True)

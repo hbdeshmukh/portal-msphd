@@ -13,9 +13,9 @@ MANAGERS = ADMINS
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql', # Add 'postgresql_psycopg2', 'mysql', 'sqlite3' or 'oracle'.
-        'NAME': 'bits2msphd',                      # Or path to database file if using sqlite3.
-        'USER': 'harshad',                      # Not used with sqlite3.
-        'PASSWORD': 'harshad',                  # Not used with sqlite3.
+        'NAME': 'admits',                      # Or path to database file if using sqlite3.
+        'USER': 'Admin',                      # Not used with sqlite3.
+        'PASSWORD': 'bitsaa123',                  # Not used with sqlite3.
         'HOST': '',                      # Set to empty string for localhost. Not used with sqlite3.
         'PORT': '',                      # Set to empty string for default. Not used with sqlite3.
     }
@@ -100,6 +100,14 @@ MIDDLEWARE_CLASSES = (
     # 'django.middleware.clickjacking.XFrameOptionsMiddleware',
 )
 
+#--------------------------------------------------- AUTHENTICATION_BACKENDS = (
+    #---------------------------------------- 'admitDB.StudentAuthModelBackend',
+#----------------------------------------------------------------------------- )
+
+AUTH_PROFILE_MODULE = 'admitDB.Student'
+
+CUSTOM_USER_MODEL = 'admitDB.Student'
+
 ROOT_URLCONF = 'BITS2MSPhD.urls'
 
 # Python dotted path to the WSGI application used by Django's runserver.
@@ -113,19 +121,21 @@ TEMPLATE_DIRS = (
 )
 
 INSTALLED_APPS = (
-#    'django.contrib.auth',
- #   'django.contrib.contenttypes',
- #   'django.contrib.sessions',
- #   'django.contrib.sites',
+     #   'django.contrib.contenttypes',
+    'django.contrib.sessions',
+    'django.contrib.auth',
+    'django.contrib.contenttypes',
 #    'django.contrib.messages',
 #    'django.contrib.staticfiles',
-    # Uncomment the next line to enable the admin:
-    # 'django.contrib.admin',
     # Uncomment the next line to enable admin documentation:
     # 'django.contrib.admindocs',
+    'django.contrib.sites',
+    'django.contrib.admin',
     'admitDB',
 )
 
+
+LOGIN_URL="/login/"
 # A sample logging configuration. The only tangible logging
 # performed by this configuration is to send an email to
 # the site admins on every HTTP 500 error when DEBUG=False.
