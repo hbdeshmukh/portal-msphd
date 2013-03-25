@@ -15,7 +15,7 @@ urlpatterns = patterns('',
         ('^student_info/$','admitDB.views.addStudentInfo'),
         ('^login/$', 'admitDB.views.verifyLogin'),
         (r'^accounts/login/$', 'django.contrib.auth.views.login'),
-        (r'^accounts/logout/$', logout),
+        (r'^logout$', 'admitDB.views.logout'),
     # Examples:
     # url(r'^$', 'mysite.views.home', name='home'),
     # url(r'^mysite/', include('mysite.foo.urls')),

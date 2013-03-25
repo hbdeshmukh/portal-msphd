@@ -71,7 +71,7 @@ User.profile = property(lambda u: Student.objects.get_or_create(student_ID=u)[0]
 def thanksPage(request):
     return render_to_response('thanks.html')
 
-
+@login_required
 def addStudentInfo(request):
     if request.method == 'POST':
         form = studentInfoForm(request.POST)
@@ -80,7 +80,8 @@ def addStudentInfo(request):
             # TODO: try except block is incomplete. We need to check it against a session. 
             # There is no unique entry in this form to check if a corresponding entry 
             # existed earlier. 
-            student_info = Student_Info(target_discipline = studentInfoData['target_discipline'],
+            student_info = Student_Info(student_id = request.session['user_id'], 
+                                        target_discipline = studentInfoData['target_discipline'],
                                         sub_area = studentInfoData['sub_area'],
                                         cgpa = studentInfoData['cgpa'],
                                         gre_verbal = studentInfoData['gre_verbal'],
@@ -108,12 +109,18 @@ def verifyLogin(request):
             # Redirect to a home page. 
             #TODO: The redirection should be to a page 
             #from where the user was redirected to login ideally.
+            request.session['user_id'] = user.id
+            print request.session['user_id']
             return HttpResponseRedirect("/")
         else:
             # Render the login page again. Show error though
             return render_to_response("registration/login.html", {'invalid': True}, RequestContext(request))
     else:
         return render_to_response("registration/login.html", {'invalid': False}, RequestContext(request))
+    
+def logout(request):
+    auth.logout(request)
+    return render_to_response("registration/login.html", {'logged_out': True}, RequestContext(request))
 
 def StudentAuthModelBackend(): 
     u = User.objects.get(pk=1) # Get the first user in the system
